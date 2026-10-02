@@ -43,13 +43,8 @@
   /* ---------- sheets ---------- */
   PM.acts.sos = function () { PM.sheet.open('<div class="sh-pad"><h2>' + PM.ic('alert') + T('emergency') + '</h2>' + sosList() + '<p class="fine">' + T('sos_note') + '</p></div>'); };
   PM.acts.support = function () {
-    var id = PM.CFG.UPI_ID, uri = id ? 'upi://pay?pa=' + encodeURIComponent(id) + '&pn=' + encodeURIComponent(PM.CFG.UPI_NAME || '') + '&cu=INR&tn=' + encodeURIComponent(PM.CFG.UPI_NOTE || '') : '';
-    PM.sheet.open('<div class="sh-pad center"><h2>' + PM.ic('heart') + T('support_t') + '</h2><p class="muted">' + T('support_long') + '</p>' +
-      (uri ? '<div id="qrBox" class="qr"></div><a class="btn primary wide" href="' + uri + '">' + PM.ic('phone') + T('pay_upi') + '</a><p class="fine">' + T('upi_note') + '</p>' : '<p class="fine">' + T('upi_missing') + '</p>') +
-      '<p class="quote">“' + T('support_quote') + '”</p></div>');
-    if (!uri) return;
-    var draw = function () { var b = document.getElementById('qrBox'); if (!b || !window.QRCode) return; b.innerHTML = ''; try { new QRCode(b, { text: uri, width: 200, height: 200, colorDark: '#120E2B', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M }); } catch (e) {} };
-    if (window.QRCode) draw(); else { var s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js'; s.onload = draw; document.head.appendChild(s); }
+    var url = PM.CFG.SUPPORT_URL;
+    if (url) window.open(url, '_blank', 'noopener');
   };
 
   /* ---------- quick actions ---------- */
@@ -82,33 +77,4 @@
   };
   PM.acts['goto-map'] = function () { PM.go('map'); };
 
-  /* ---------- Mahalaya audio + calendar reminder ---------- */
-  PM.audio = new Audio(); PM.audio.preload = 'none';
-  if (PM.CFG.MAHALAYA_STREAM_URL) PM.audio.src = PM.CFG.MAHALAYA_STREAM_URL;
-  ['play', 'pause', 'ended'].forEach(function (ev) {
-    PM.audio.addEventListener(ev, function () {
-      if ('mediaSession' in navigator) {
-        if (ev === 'play') { try { navigator.mediaSession.metadata = new MediaMetadata({ title: T('mh_title'), artist: T('app_title'), album: T('app_name') }); } catch (e) {} navigator.mediaSession.playbackState = 'playing'; }
-        else navigator.mediaSession.playbackState = 'paused';
-      }
-      if (PM.st.tab === 'home') PM.renderHome();
-    });
-  });
-  PM.audio.addEventListener('error', function () { PM.toast(T('mh_err')); });
-  if ('mediaSession' in navigator) {
-    try { navigator.mediaSession.setActionHandler('play', function () { PM.audio.play(); }); navigator.mediaSession.setActionHandler('pause', function () { PM.audio.pause(); }); } catch (e) {}
-  }
-  PM.acts['mh-play'] = function () {
-    var s = PM.mahalayaState();
-    if (s === 'soon') { PM.toast(T('mh_not_yet')); return; }
-    if (!PM.CFG.MAHALAYA_STREAM_URL) { PM.toast(T('mh_nostream_toast')); return; }
-    if (PM.audio.paused) PM.audio.play().catch(function () { PM.toast(T('mh_tap_again')); }); else PM.audio.pause();
-  };
-  PM.acts['mh-cal'] = function () {
-    var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//PujaMap26//EN', 'BEGIN:VEVENT', 'UID:mahalaya-2026@pujamap26', 'DTSTAMP:20261001T000000Z',
-      'DTSTART:20261009T223000Z', 'DTEND:20261010T003000Z', 'SUMMARY:Mahalaya 2026 (Mahishasuramardini)', 'DESCRIPTION:Mahalaya live audio from 4:00 AM IST. ' + PM.site(),
-      'BEGIN:VALARM', 'TRIGGER:-PT15M', 'ACTION:DISPLAY', 'DESCRIPTION:Mahalaya starts soon', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
-    var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' })); a.download = 'mahalaya-2026.ics';
-    document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500); PM.toast(T('cal_added'));
-  };
 })(window.PM = window.PM || {});

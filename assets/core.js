@@ -3,8 +3,8 @@
   'use strict';
   var D = window.PUJA_D, L = window.PUJA_I18N;
   PM.CFG = Object.assign({
-    SUPABASE_URL: '', SUPABASE_ANON_KEY: '', MAHALAYA_STREAM_URL: '', MAHALAYA_START: '2026-10-10T04:00:00+05:30',
-    UPI_ID: '', UPI_NAME: '', UPI_NOTE: '', WEATHER_LAT: 22.5726, WEATHER_LON: 88.3639, AI_ENDPOINT: ''
+    SUPABASE_URL: '', SUPABASE_ANON_KEY: '', MAHALAYA_STREAM_URL: '', MAHALAYA_PAGE_URL: '', MAHALAYA_START: '2026-10-10T04:00:00+05:30',
+    SUPPORT_URL: '', SUPPORT_QR: '', WEATHER_LAT: 22.5726, WEATHER_LON: 88.3639, AI_ENDPOINT: ''
   }, window.PUJA_CONFIG || {});
   PM.D = D; PM.Z = D.Z; PM.P = D.P; PM.ST = D.ST; PM.SS = D.S; PM.F = D.F; PM.M = D.M; PM.RG = D.RG; PM.PL = D.PL;
 
@@ -19,7 +19,7 @@
   var savedLang = PM.store.get('puja26_lang', '');
   PM.st = {
     tab: 'home',
-    lang: savedLang === 'en' || savedLang === 'bn' ? savedLang : 'bn',
+    lang: savedLang === 'en' || savedLang === 'bn' ? savedLang : 'en',
     rg: 'N', zf: 'all', star: false, q: '',
     sel: PM.store.json('puja26_route', []).filter(function (i) { return Number.isInteger(i) && i >= 0 && i < D.P.length; }),
     vs: new Set(PM.store.json('puja26', [])),
@@ -49,6 +49,7 @@
     return s;
   };
   PM.tr = function (s) { return PM.st.lang === 'bn' && L.data[s] ? L.data[s] : s; };
+  PM.bn = function (s) { return L.data[s] || s; };               // Bengali form regardless of UI language (used for search)
   PM.esc = function (s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
   };

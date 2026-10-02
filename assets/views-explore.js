@@ -11,7 +11,7 @@
     if (st.star && !p[6]) return false;
     if (st.q) {
       var f = PM.F[i];
-      var hay = [p[0], PM.tr(p[0]), p[2], PM.tr(p[2]), f[0], PM.tr(f[0]), f[1], PM.tr(f[1]), PM.tr(PM.Z[p[1]][0]), PM.Z[p[1]][0]].join(' ').toLowerCase();
+      var hay = [p[0], PM.bn(p[0]), p[2], PM.bn(p[2]), f[0], PM.bn(f[0]), f[1], PM.bn(f[1]), PM.Z[p[1]][0], PM.bn(PM.Z[p[1]][0])].join(' ').toLowerCase();
       if (hay.indexOf(st.q) < 0) return false;
     }
     return true;

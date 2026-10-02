@@ -4,14 +4,16 @@ window.PUJA_CONFIG = {
   SUPABASE_URL: "https://obrtopvixqemwhvzadda.supabase.co",
   SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9icnRvcHZpeHFlbXdodnphZGRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3NDIxNTEsImV4cCI6MjEwNjMxODE1MX0.YC39Z36MBaQ2twujKKIcU3otvmYLbF_h1mV7pxTTKAA",
 
-  // Mahalaya live audio: paste the authorized MP3/AAC/HLS stream URL here before 10 Oct 2026
+  // Mahalaya (10 Oct 2026, 4:00 AM IST).
+  // MAHALAYA_PAGE_URL: opens in a new tab (works for everyone).
+  // MAHALAYA_STREAM_URL: OPTIONAL direct audio file/stream (mp3/aac/m3u8) you have the right to play. If set, the app plays it in-app and can auto-start it at 4:00 AM.
+  MAHALAYA_PAGE_URL: "https://audio.com/chandan-roy-1/audio/mahalaya-original-chandi-path-birendra-krishna-bhadra-full-chandipath-yqfn",
   MAHALAYA_STREAM_URL: "",
   MAHALAYA_START: "2026-10-10T04:00:00+05:30",
 
-  // Support / donate (UPI)
-  UPI_ID: "sudiptachatterjee99@ybl",
-  UPI_NAME: "Sudipta Chatterjee",
-  UPI_NOTE: "Durga Puja Map support",
+  // Support button / QR sheet
+  SUPPORT_URL: "https://www.buymeachai.in/sudiptachatterjee.work",
+  SUPPORT_QR: "/assets/support-qr.png",
 
   // Live weather (Open-Meteo, free, no key). Kolkata centre.
   WEATHER_LAT: 22.5726,

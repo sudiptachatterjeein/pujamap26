@@ -25,12 +25,12 @@ window.PUJA_I18N = {
       wx_soon: 'Forecast soon', wx_opens: 'Forecast opens {date}', wx_credit: 'Weather data: Open-Meteo.com. Forecasts can change; check again before you leave.',
       next_24h: 'Next 24 hours', next_days: 'Next 10 days', puja_days: 'Puja days', sunrise: 'Sunrise', sunset: 'Sunset', loading: 'Loading…',
       mh_title: 'Mahalaya live', mh_when: '10 October 2026 · from 4:00 AM IST', mh_scheduled: 'Scheduled', mh_live: 'Live now', mh_ended: 'Broadcast ended',
-      mh_starts_in: 'Starts in {t}', mh_live_hint: 'Tap play once, then lock your phone and keep listening where supported.', mh_nostream: 'The live stream link will be added here before the broadcast.',
+      mh_starts_in: 'Starts in {t}', mh_live_hint: 'Tap Listen to play Mahalaya now.', mh_nostream: 'The live stream link will be added here before the broadcast.',
       mh_ended_d: 'The live window has ended.', mh_err: 'Could not play the audio.', mh_not_yet: 'Mahalaya audio starts on 10 October at 4:00 AM.', mh_nostream_toast: 'Stream link not added yet.', mh_tap_again: 'Tap play again to allow audio.',
       listen: 'Listen', pause: 'Pause', add_cal: 'Remind me', cal_added: 'Calendar file downloaded.', u_d: 'd', u_h: 'h', u_m: 'm', u_s: 's',
       must_see: 'Must-see pandals', see_all: 'See all', quick_plans: 'Ready-made plans', n_stops: '{n} stops', start_plan: 'Use this plan',
       quick_actions: 'Quick actions', qa_near: 'Near me', qa_map: 'Open map', qa_traffic: 'Live traffic', qa_toilet: 'Toilets', qa_sos: 'Emergency', qa_share: 'Share app',
-      support_t: 'Enjoying the map?', support_d: "It's free. A small UPI tip keeps it updated every year.", support_btn: 'Support', crafted: 'Crafted with ❤️ by',
+      support_t: 'Enjoying the map?', support_d: "It's free. A small tip keeps it updated every year.", support_btn: 'Support', crafted: 'Crafted with ❤️ by',
       search_ph: 'Search pandal, metro or food…', all_zones: 'All zones', famous: 'Famous', n_pandals: '{n} pandals', visited_of: 'Visited {a} of {b}',
       no_match: 'No pandals found', no_match_d: 'Try a different spelling, or clear the filters.', clear_filters: 'Clear filters',
       close: 'Close', details: 'Details', add_route: 'Add to route', in_route: 'In route', remove_route: 'Remove from route', added_route: 'Added: {name}', removed_route: 'Removed from route',
@@ -89,7 +89,12 @@ window.PUJA_I18N = {
       last_checked: 'Pandal list last checked: 29 Sep 2026.',
       loc_na: 'Location is not available in this browser.', locating: 'Finding your location…', loc_denied: 'Location permission was not given.', loc_found: 'Location found',
       loc_found_d: 'Open Google Maps to see pandals around you.', open_gmaps_near: 'Pandals near me', toilets_near: 'Toilets near me',
-      back_online: 'Back online', offline: 'You are offline. Saved data is shown.'
+      back_online: 'Back online', offline: 'You are offline. Saved data is shown.',
+      support_float: 'Support on Buy Me a Chai', qr_alt: 'QR code to support the project', qr_note: 'Scan with any UPI app, or use the button below. Any amount helps.', pay_chai: 'Support on Buy Me a Chai',
+      mh_replay: 'Recording available', mh_replay_d: 'Mahalaya has aired. You can still listen to the recording.', mh_listen_page: 'Listen on Audio.com',
+      mh_alert_me: 'Alert me at 4 AM', mh_alert_set: 'Alert set', mh_alert_off: 'Alert turned off', mh_alert_on_toast: 'Alert set for 4:00 AM on 10 Oct. Keep the app open.',
+      mh_armed_stream: 'The audio will start by itself at 4:00 AM if this app stays open on your phone.', mh_armed_page: 'You will get an alert at 4:00 AM if this app stays open. Tap it to listen.',
+      mh_started: 'Mahalaya has started', mh_started_d: 'Tap to listen now.', mh_tap_start: 'Tap to start'
     },
     bn: {
       app_title: 'দুর্গাপূজা ২০২৬ · কলকাতার প্যান্ডেল ও মেট্রো ম্যাপ', app_name: 'পুজো ম্যাপ ২০২৬',
@@ -114,12 +119,12 @@ window.PUJA_I18N = {
       wx_soon: 'শীঘ্রই পূর্বাভাস', wx_opens: 'পূর্বাভাস মিলবে {date} থেকে', wx_credit: 'আবহাওয়ার তথ্য: Open-Meteo.com। পূর্বাভাস বদলাতে পারে; বেরোনোর আগে আবার দেখে নিন।',
       next_24h: 'আগামী ২৪ ঘণ্টা', next_days: 'আগামী ১০ দিন', puja_days: 'পুজোর দিনগুলি', sunrise: 'সূর্যোদয়', sunset: 'সূর্যাস্ত', loading: 'লোড হচ্ছে…',
       mh_title: 'মহালয়া লাইভ', mh_when: '১০ অক্টোবর ২০২৬ · ভোর ৪টা থেকে', mh_scheduled: 'নির্ধারিত', mh_live: 'এখন সরাসরি', mh_ended: 'সম্প্রচার শেষ',
-      mh_starts_in: 'শুরু হতে {t}', mh_live_hint: 'একবার প্লে চাপুন, তারপর ফোন লক করেও শুনতে পারবেন (যেখানে সমর্থিত)।', mh_nostream: 'সম্প্রচারের আগে এখানে লাইভ স্ট্রিমের লিঙ্ক যোগ করা হবে।',
+      mh_starts_in: 'শুরু হতে {t}', mh_live_hint: 'এখনই মহালয়া শুনতে ‘শুনুন’ চাপুন।', mh_nostream: 'সম্প্রচারের আগে এখানে লাইভ স্ট্রিমের লিঙ্ক যোগ করা হবে।',
       mh_ended_d: 'লাইভ সম্প্রচারের সময় শেষ।', mh_err: 'অডিও চালানো যায়নি।', mh_not_yet: 'মহালয়ার অডিও শুরু ১০ অক্টোবর ভোর ৪টায়।', mh_nostream_toast: 'স্ট্রিমের লিঙ্ক এখনও যোগ হয়নি।', mh_tap_again: 'অডিও চালাতে আবার প্লে চাপুন।',
       listen: 'শুনুন', pause: 'থামান', add_cal: 'মনে করিয়ে দিন', cal_added: 'ক্যালেন্ডার ফাইল নামানো হয়েছে।', u_d: ' দিন', u_h: ' ঘণ্টা', u_m: ' মিনিট', u_s: ' সেকেন্ড',
       must_see: 'সেরা প্যান্ডেল', see_all: 'সব দেখুন', quick_plans: 'তৈরি পরিকল্পনা', n_stops: '{n}টি স্টপ', start_plan: 'এই পরিকল্পনা নিন',
       quick_actions: 'দ্রুত কাজ', qa_near: 'আমার কাছে', qa_map: 'মানচিত্র', qa_traffic: 'লাইভ ট্রাফিক', qa_toilet: 'শৌচালয়', qa_sos: 'জরুরি', qa_share: 'শেয়ার করুন',
-      support_t: 'ম্যাপটা কাজে লাগছে?', support_d: 'এটি বিনামূল্যে। ছোট্ট UPI সহযোগিতায় প্রতি বছর হালনাগাদ থাকে।', support_btn: 'সহযোগিতা', crafted: 'ভালোবাসা দিয়ে তৈরি:',
+      support_t: 'ম্যাপটা কাজে লাগছে?', support_d: 'এটি বিনামূল্যে। ছোট্ট সহযোগিতায় প্রতি বছর হালনাগাদ থাকে।', support_btn: 'সহযোগিতা', crafted: 'ভালোবাসা দিয়ে তৈরি:',
       search_ph: 'প্যান্ডেল, মেট্রো বা খাবার খুঁজুন…', all_zones: 'সব এলাকা', famous: 'বিখ্যাত', n_pandals: '{n}টি প্যান্ডেল', visited_of: '{b}টির মধ্যে {a}টি দেখা',
       no_match: 'কোনো প্যান্ডেল পাওয়া যায়নি', no_match_d: 'অন্যভাবে লিখে দেখুন, বা ফিল্টার সরান।', clear_filters: 'ফিল্টার সরান',
       close: 'বন্ধ করুন', details: 'বিস্তারিত', add_route: 'রুটে যোগ করুন', in_route: 'রুটে আছে', remove_route: 'রুট থেকে সরান', added_route: 'যোগ হয়েছে: {name}', removed_route: 'রুট থেকে সরানো হয়েছে',
@@ -178,7 +183,12 @@ window.PUJA_I18N = {
       last_checked: 'প্যান্ডেল তালিকা শেষ যাচাই: ২৯ সেপ্টেম্বর ২০২৬।',
       loc_na: 'এই ব্রাউজারে লোকেশন পাওয়া যাচ্ছে না।', locating: 'আপনার অবস্থান খোঁজা হচ্ছে…', loc_denied: 'লোকেশনের অনুমতি দেওয়া হয়নি।', loc_found: 'অবস্থান পাওয়া গেছে',
       loc_found_d: 'আপনার আশপাশের প্যান্ডেল দেখতে গুগল ম্যাপ খুলুন।', open_gmaps_near: 'আমার কাছের প্যান্ডেল', toilets_near: 'আমার কাছের শৌচালয়',
-      back_online: 'আবার অনলাইনে', offline: 'আপনি অফলাইন। সংরক্ষিত তথ্য দেখানো হচ্ছে।'
+      back_online: 'আবার অনলাইনে', offline: 'আপনি অফলাইন। সংরক্ষিত তথ্য দেখানো হচ্ছে।',
+      support_float: 'Buy Me a Chai-তে সহযোগিতা', qr_alt: 'প্রকল্পকে সহযোগিতার QR কোড', qr_note: 'যেকোনো UPI অ্যাপ দিয়ে স্ক্যান করুন, বা নিচের বোতাম ব্যবহার করুন। যেকোনো অঙ্কই কাজে লাগে।', pay_chai: 'Buy Me a Chai-তে সহযোগিতা করুন',
+      mh_replay: 'রেকর্ডিং পাওয়া যাচ্ছে', mh_replay_d: 'মহালয়া সম্প্রচারিত হয়েছে। রেকর্ডিং এখনও শুনতে পারেন।', mh_listen_page: 'Audio.com-এ শুনুন',
+      mh_alert_me: 'ভোর ৪টায় জানান', mh_alert_set: 'অ্যালার্ট চালু', mh_alert_off: 'অ্যালার্ট বন্ধ', mh_alert_on_toast: '১০ অক্টোবর ভোর ৪টার অ্যালার্ট চালু। অ্যাপ খোলা রাখুন।',
+      mh_armed_stream: 'অ্যাপ ফোনে খোলা থাকলে ভোর ৪টায় অডিও নিজে থেকেই চালু হবে।', mh_armed_page: 'অ্যাপ খোলা থাকলে ভোর ৪টায় অ্যালার্ট পাবেন; ট্যাপ করে শুনুন।',
+      mh_started: 'মহালয়া শুরু হয়েছে', mh_started_d: 'এখনই শুনতে ট্যাপ করুন।', mh_tap_start: 'চালু করতে ট্যাপ করুন'
     }
   },
   data: {

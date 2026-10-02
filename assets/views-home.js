@@ -108,25 +108,23 @@
   }
 
   /* ---------- Mahalaya live card ---------- */
-  PM.mahalayaState = function () {
-    var now = Date.now(), start = new Date(PM.CFG.MAHALAYA_START).getTime(), end = start + 8 * 36e5;
-    return now < start ? 'soon' : now < end ? 'live' : 'ended';
-  };
   function mahalaya() {
-    var s = PM.mahalayaState(), hasStream = !!PM.CFG.MAHALAYA_STREAM_URL;
-    var playing = PM.audio && !PM.audio.paused;
-    var label = s === 'soon' ? T('mh_scheduled') : s === 'live' ? T('mh_live') : T('mh_ended');
-    var line = s === 'soon' ? T('mh_starts_in', { t: PM.mahalayaCountdown() }) : s === 'live' ? (hasStream ? T('mh_live_hint') : T('mh_nostream')) : T('mh_ended_d');
+    var s = PM.mahalayaState(), stream = PM.mhHasStream(), playing = PM.audio && !PM.audio.paused, armed = PM.mhArmed(), page = PM.CFG.MAHALAYA_PAGE_URL;
+    var label = s === 'soon' ? T('mh_scheduled') : s === 'live' ? T('mh_live') : T('mh_replay');
+    var line = s === 'soon' ? T('mh_starts_in', { t: PM.mahalayaCountdown() }) : s === 'live' ? T('mh_live_hint') : T('mh_replay_d');
+    var listen = stream
+      ? '<button class="btn ' + (s !== 'soon' ? 'primary' : '') + '" data-act="mh-play">' + PM.ic(playing ? 'pause' : 'play') + (playing ? T('pause') : T('listen')) + '</button>'
+      : (page ? '<a class="btn ' + (s !== 'soon' ? 'primary' : '') + '" href="' + PM.esc(page) + '" target="_blank" rel="noopener">' + PM.ic('play') + T('mh_listen_page') + '</a>' : '');
+    var arm = s === 'soon' ? '<button class="btn ' + (armed ? 'on' : 'ghost') + '" data-act="mh-arm" aria-pressed="' + armed + '">' + PM.ic('bell') + (armed ? T('mh_alert_set') : T('mh_alert_me')) + '</button>' : '';
     return '<section class="mh ' + (s === 'live' ? 'live' : '') + '" id="mhCard">' +
       '<div class="mh-ic">' + PM.ic('radio') + '</div>' +
       '<div class="mh-txt"><div class="mh-st"><i class="live-dot"></i><span>' + label + '</span></div><h3>' + T('mh_title') + '</h3>' +
       '<p>' + T('mh_when') + '</p><p class="mh-line" id="mhLine">' + line + '</p></div>' +
-      '<div class="mh-act">' +
-      '<button class="btn ' + (s === 'live' && hasStream ? 'primary' : '') + '" data-act="mh-play" ' + (s !== 'live' || !hasStream ? 'aria-disabled="true"' : '') + '>' + PM.ic(playing ? 'pause' : 'play') + (playing ? T('pause') : T('listen')) + '</button>' +
-      '<button class="btn ghost" data-act="mh-cal">' + PM.ic('calendar') + T('add_cal') + '</button></div></section>';
+      '<div class="mh-act">' + listen + arm + '<button class="btn ghost" data-act="mh-cal">' + PM.ic('calendar') + T('add_cal') + '</button></div>' +
+      (s === 'soon' && armed ? '<p class="fine mh-fine">' + T(stream ? 'mh_armed_stream' : 'mh_armed_page') + '</p>' : '') + '</section>';
   }
   PM.mahalayaCountdown = function () {
-    var d = new Date(PM.CFG.MAHALAYA_START).getTime() - Date.now(); if (d < 0) return '';
+    var d = PM.mhStart() - Date.now(); if (d < 0) return '';
     var days = Math.floor(d / 864e5), h = Math.floor(d % 864e5 / 36e5), m = Math.floor(d % 36e5 / 6e4), s = Math.floor(d % 6e4 / 1e3);
     return (days ? PM.nf(days) + T('u_d') + ' ' : '') + PM.nf(h) + T('u_h') + ' ' + PM.nf(m) + T('u_m') + ' ' + PM.nf(s < 10 ? '0' + s : s) + T('u_s');
   };
@@ -158,17 +156,12 @@
     return '<section class="block"><div class="block-h"><h2>' + T('quick_actions') + '</h2></div><div class="qa">' +
       a.map(function (x) { return '<button class="qa-b' + (x[0] === 'sos' ? ' sos' : '') + '" data-act="' + x[0] + '">' + PM.ic(x[1]) + '<span>' + x[2] + '</span></button>'; }).join('') + '</div></section>';
   }
-  function supportBanner() {
-    return '<section class="support"><div class="sp-ic">' + PM.ic('heart') + '</div><div><b>' + T('support_t') + '</b><span>' + T('support_d') + '</span></div>' +
-      '<button class="btn primary sm" data-act="support">' + T('support_btn') + '</button></section>';
-  }
-
   PM.renderHome = function () {
     var el = document.getElementById('v-home'); if (!el) return;
     var scroll = el.scrollTop;
     el.innerHTML = '<header class="vhead home-head"><div class="hh-l"><span class="logo">' + PM.ic('diya') + '</span><div><div class="hh-hi">' + greeting() + '</div>' +
       '<div class="hh-sub">' + T('app_name') + ' · ' + PM.fmtDay(Date.now()) + '</div></div></div><div class="hh-r">' + PM.langSwitch() + '</div></header>' +
-      '<div class="pad">' + wxHero() + rail() + mahalaya() + mustSee() + plansBlock() + quickActions() + supportBanner() +
+      '<div class="pad">' + wxHero() + rail() + mahalaya() + mustSee() + plansBlock() + quickActions() +
       '<p class="fine foot">' + T('crafted') + ' <b>Sudipta Chatterjee</b></p></div>';
     el.scrollTop = scroll;
   };

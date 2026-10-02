@@ -12,7 +12,12 @@
       return '<button class="nb' + (on ? ' on' : '') + '" data-act="tab" data-tab="' + tab + '" aria-label="' + PM.esc(PM.t('tab_' + tab)) + '"' + (on ? ' aria-current="page"' : '') + '>' +
         PM.ic(NAV_ICON[tab]) + '<span>' + PM.t('tab_' + tab) + '</span>' + (tab === 'route' && n ? '<i class="nbadge">' + PM.nf(n) + '</i>' : '') + '</button>';
     }).join('');
+    PM.renderLane();
   }
+  PM.renderLane = function () {
+    var el = document.getElementById('lane'); if (!el) return;
+    el.innerHTML = '<button class="fab" data-act="support">' + PM.ic('heart') + '<span>' + PM.t('support_float') + '</span></button>';
+  };
   var RENDER = {
     home: function () { PM.renderHome(); },
     explore: function () { PM.renderExplore(); },
@@ -50,7 +55,7 @@
 
   PM.rerenderAll = function () {
     document.documentElement.classList.toggle('big', PM.st.big);
-    buildNav(); PM.renderHome(); PM.renderExplore(); PM.renderRoute(); PM.renderMore(); PM.map.redraw();
+    buildNav(); PM.renderHome(); PM.renderExplore(); PM.renderRoute(); PM.renderMore(); PM.map.redraw(); PM.renderMhBanner();
     if (PM.sheet.isOpen()) PM.sheet.close();
   };
 
@@ -96,13 +101,14 @@
     document.addEventListener('visibilitychange', function () {
       if (!document.hidden && (!PM.wx.data || Date.now() - PM.wx.data.fetched > 10 * 60 * 1000)) PM.loadWeather(true);
     });
-    setInterval(function () { if (PM.st.tab === 'home') PM.refreshHomeLive(); }, 1000);
+    setInterval(function () { PM.mahalayaTick(); if (PM.st.tab === 'home') PM.refreshHomeLive(); }, 1000);
+    PM.mahalayaTick();
     setTimeout(PM.heartbeat, 1800); setInterval(PM.heartbeat, 30000);
 
     window.addEventListener('online', function () { PM.toast(PM.t('back_online')); PM.loadWeather(true); });
     window.addEventListener('offline', function () { PM.toast(PM.t('offline')); });
 
-    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+    if (navigator.serviceWorker && navigator.serviceWorker.register && (location.protocol === 'https:' || location.hostname === 'localhost')) {
       navigator.serviceWorker.register('/sw.js').catch(function () {});
     }
   }

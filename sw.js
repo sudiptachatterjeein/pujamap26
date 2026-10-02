@@ -1,7 +1,7 @@
 /* Puja Map 2026 service worker: app shell works offline; live APIs are never cached. Bump VERSION on each release. */
-const VERSION = 'puja26-v1';
-const SHELL = ['/', '/index.html', '/assets/app.css?v=1', '/assets/data.js?v=1', '/assets/config.js?v=1', '/assets/i18n.js?v=1', '/assets/core.js?v=1', '/assets/weather.js?v=1',
-  '/assets/community.js?v=1', '/assets/map.js?v=1', '/assets/views-home.js?v=1', '/assets/views-explore.js?v=1', '/assets/views-route.js?v=1', '/assets/views-more.js?v=1', '/assets/main.js?v=1',
+const VERSION = 'puja26-v2';
+const SHELL = ['/', '/index.html', '/assets/app.css?v=2', '/assets/data.js?v=2', '/assets/config.js?v=2', '/assets/i18n.js?v=2', '/assets/core.js?v=2', '/assets/weather.js?v=2',
+  '/assets/community.js?v=2', '/assets/mahalaya.js?v=2', '/assets/support-qr.png', '/assets/map.js?v=2', '/assets/views-home.js?v=2', '/assets/views-explore.js?v=2', '/assets/views-route.js?v=2', '/assets/views-more.js?v=2', '/assets/main.js?v=2',
   '/assets/favicon.svg', '/manifest.webmanifest'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => Promise.all(SHELL.map((u) => c.add(u).catch(() => {})))).then(() => self.skipWaiting()));
@@ -20,9 +20,14 @@ self.addEventListener('fetch', (e) => {
     return;
   }
   if (url.origin !== location.origin) return;
-  // Same-origin: stale-while-revalidate; navigations fall back to the cached shell when offline.
-  e.respondWith(caches.open(VERSION).then((c) => c.match(req).then((hit) => {
-    const net = fetch(req).then((r) => { if (r.ok) c.put(req, r.clone()); return r; }).catch(() => hit || (req.mode === 'navigate' ? c.match('/index.html') : undefined));
-    return hit || net;
-  })));
+  // Same-origin: network first (so a new deploy shows up immediately), cached copy when offline.
+  e.respondWith(fetch(req).then((r) => { if (r.ok) { const copy = r.clone(); caches.open(VERSION).then((c) => c.put(req, copy)); } return r; })
+    .catch(() => caches.open(VERSION).then((c) => c.match(req).then((hit) => hit || (req.mode === 'navigate' ? c.match('/index.html') : Response.error())))));
+});
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((cs) => {
+    for (const c of cs) { if ('focus' in c) return c.focus(); }
+    return self.clients.openWindow((e.notification.data && e.notification.data.url) || '/');
+  }));
 });

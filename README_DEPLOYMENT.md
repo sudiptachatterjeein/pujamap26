@@ -28,14 +28,23 @@ The repo's front page must show `index.html`, `vercel.json`, `assets`, `api`.
    Without it, the app still works; the "Ask the Puja guide" box just says it is unavailable.
 
 ## 4. Things you set in `assets/config.js`
-| Setting | What to do |
+| Setting | What it does |
 |---|---|
-| `MAHALAYA_STREAM_URL` | Paste the **authorized** live stream URL (MP3/AAC/HLS) before 10 Oct 2026 |
-| `UPI_ID` / `UPI_NAME` | Your UPI details for the Support QR |
-| `WEATHER_LAT/LON` | Already Kolkata; no API key needed (Open-Meteo) |
-| `AI_ENDPOINT` | Set to `""` to hide the AI box completely |
+| `SUPPORT_URL` | Where the Support button sends people (currently Buy Me a Chai) |
+| `SUPPORT_QR` | The QR image shown in the Support sheet (`assets/support-qr.png`) |
+| `MAHALAYA_PAGE_URL` | Page opened by the **Listen** buttons (currently your audio.com link) |
+| `MAHALAYA_STREAM_URL` | **Optional.** A direct audio file or stream you have the right to play (mp3/aac/m3u8). When set, the app plays it in-app and can auto-start it at 4:00 AM for people who tapped "Alert me" |
+| `WEATHER_LAT/LON` | Already Kolkata. No API key needed (Open-Meteo) |
+| `AI_ENDPOINT` | Set to `""` to hide the AI box |
 
-Only **public** values belong in `config.js`. Never put a secret or service-role key in any file in this repo.
+Do not paste an audio.com direct "mp3?X-Amz-Signature=..." address into `MAHALAYA_STREAM_URL`: those links expire after about 6 days.
+Only public values belong in `config.js`. Never put a secret or service-role key in any file in this repo.
+
+### How the Mahalaya 4:00 AM alert behaves
+- A web page cannot wake a phone by itself. It works while the app is open on the phone (or as a notification if allowed).
+- "Alert me at 4 AM" turns it on. At 4:00 AM IST on 10 Oct the app shows a banner and a notification; with `MAHALAYA_STREAM_URL` set it also starts the audio.
+- Some phones block automatic sound. In that case the banner shows "Tap to start".
+- "Remind me" downloads a calendar event with an alarm, which works even when the app is closed.
 
 ## 5. Check it works
 - Open the site: weather card shows temperature, rain advice and hourly strip.
@@ -44,11 +53,11 @@ Only **public** values belong in `config.js`. Never put a secret or service-role
 - `/admin` → sign in → visitors appear within ~30 seconds.
 
 ## Updating after deploy
-`sw.js` caches the app for offline use. When you change files, bump `VERSION` in `sw.js` (e.g. `puja26-v2`)
-and the `?v=` numbers in `index.html` so phones pick up the new version.
+The app loads fresh files whenever the phone is online and uses its saved copy only when offline.
+If you want to force-refresh old offline copies, bump `VERSION` in `sw.js` (e.g. `puja26-v3`).
 
 ## Notes
-- Dark mode only, by design.
+- Dark mode only, by design. English is the default; users can switch to বাংলা (remembered on the device).
 - Bengali names were written by hand: please have a native reader skim them (`assets/i18n.js`, section `data`).
 - Weather: Open-Meteo forecasts up to 16 days ahead, so Puja-day forecasts appear automatically as the dates come into range.
 - The south / east / port / suburban maps are approximate sketches (as in the previous version).

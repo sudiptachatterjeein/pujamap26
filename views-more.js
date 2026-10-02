@@ -46,7 +46,7 @@
     var url = PM.CFG.SUPPORT_URL, qr = PM.CFG.SUPPORT_QR;
     PM.sheet.open('<div class="sh-pad center"><h2>' + PM.ic('heart') + T('support_t') + '</h2><p class="muted">' + T('support_long') + '</p>' +
       (qr ? '<div class="qr"><img src="' + PM.esc(qr) + '" width="220" height="220" alt="' + PM.esc(T('qr_alt')) + '"></div><p class="fine">' + T('qr_note') + '</p>' : '') +
-      '<a class="btn primary wide" href="' + PM.esc(url) + '" target="_blank" rel="noopener">' + PM.ic('heart') + T('pay_chai') + '</a>' +
+      '<a class="btn primary wide" href="' + PM.esc(url) + '" target="_blank" rel="noopener">' + PM.ic('heart') + T('pay_upi') + '</a>' +
       '<p class="quote">“' + T('support_quote') + '”</p></div>');
   };
 

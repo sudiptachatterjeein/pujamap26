@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#120E2B"><meta name="color-scheme" content="dark"><title>Puja Map 2026 · Admin</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+:root{color-scheme:dark;--night:#120E2B;--surface:#1B1642;--raise:#261F58;--line:rgba(255,255,255,.1);--ink:#F7F0E1;--mut:#B7AEDC;--zari:#F6B93B;--red:#FF8A7A}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 "Anek Bangla",system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--night);color:var(--ink)}
+.wrap{max-width:1100px;margin:auto;padding:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;margin:10px 0}
+h1{margin:0 0 8px;font-size:22px} h2{margin:0 0 8px;font-size:18px}
+input,button{padding:12px 14px;border-radius:999px;border:1px solid var(--line);font:inherit;background:var(--raise);color:var(--ink)}
+input{outline:none} input:focus{border-color:var(--zari)}
+button{background:var(--zari);color:#2A1B00;font-weight:800;cursor:pointer;border:0}
+.login{max-width:420px;margin:10vh auto}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat b{display:block;font-size:30px;line-height:1.2}
+.table{overflow:auto}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{color:var(--mut);font-weight:700;font-size:13px}
+small{color:var(--mut)}.danger{color:var(--red)}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
+#app{display:none}
+</style></head><body>
+<div class="wrap">
+<div id="login" class="card login"><h1>🪔 Puja Map Admin</h1><p>Private dashboard. Only the configured admin email can access visitor data.</p><input id="email" type="email" placeholder="Admin email" style="width:100%;box-sizing:border-box;margin:4px 0"><input id="password" type="password" placeholder="Password" style="width:100%;box-sizing:border-box;margin:4px 0"><button id="loginBtn">Sign in</button><p id="loginMsg"></p></div>
+<div id="app"><div class="card"><h1>🪔 Puja Map 2026 · Live Admin</h1><button id="logout">Sign out</button><span id="updated" style="margin-left:10px"></span></div>
+<div class="stats"><div class="card stat">🟢 Live now<b id="live">0</b><small>last 90 seconds</small></div><div class="card stat">👥 Seen<b id="total">0</b><small>unique visitor codes</small></div><div class="card stat">🎙️ Audio<b id="audio">0</b><small>currently marked playing</small></div><div class="card stat">📱 Mobile<b id="mobile">0</b><small>of live visitors</small></div></div>
+<div class="card"><h2>Live visitors</h2><p><small>IP address is server-observed. Location below is only shown if the visitor explicitly grants browser location permission. MAC address is not available to normal websites.</small></p><div class="table"><table><thead><tr><th>Visitor code</th><th>Device</th><th>IP</th><th>Page</th><th>Audio</th><th>Location</th><th>Last seen</th></tr></thead><tbody id="rows"></tbody></table></div></div></div></div>
+<script>
+// Replace these two public values with your Supabase project values. The service-role key NEVER belongs here.
+const SUPABASE_URL="https://obrtopvixqemwhvzadda.supabase.co";
+const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9icnRvcHZpeHFlbXdodnphZGRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3NDIxNTEsImV4cCI6MjEwNjMxODE1MX0.YC39Z36MBaQ2twujKKIcU3otvmYLbF_h1mV7pxTTKAA";
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const $=id=>document.getElementById(id);const esc=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function load(){const {data:{session}}=await sb.auth.getSession();if(!session)return;$('login').style.display='none';$('app').style.display='block';const {data:d,error:err}=await sb.rpc('admin_summary');if(err){const m=err.message==='Not an admin'?'Not an admin: add your email to the admins table (last step of the SQL setup).':err.message;$('rows').innerHTML='<tr><td colspan="7" class="danger">'+esc(m||'Admin request failed')+'</td></tr>';return}const live=d.live||[];$('live').textContent=live.length;$('total').textContent=d.totalCount||0;$('audio').textContent=live.filter(x=>x.audio_playing).length;$('mobile').textContent=live.filter(x=>x.device_type==='Mobile').length;$('updated').textContent='Updated '+new Date().toLocaleTimeString();$('rows').innerHTML=live.map(x=>{const loc=x.location_permission&&x.latitude!=null?x.latitude.toFixed(5)+', '+x.longitude.toFixed(5):'Not shared';return '<tr><td><b>'+esc(x.visitor_code)+'</b></td><td>'+esc(x.device_type)+'</td><td>'+esc(x.ip_address||'—')+'</td><td>'+esc(x.current_page||'—')+'</td><td>'+(x.audio_playing?'🔴 Playing':'—')+'</td><td>'+loc+'</td><td>'+new Date(x.last_seen).toLocaleTimeString()+'</td></tr>'}).join('')||'<tr><td colspan="7">No live visitors.</td></tr>'}
+$('loginBtn').onclick=async()=>{const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});$('loginMsg').textContent=error?error.message:'Signed in…';if(!error)load()};$('logout').onclick=()=>sb.auth.signOut().then(()=>location.reload());load();setInterval(()=>{if($('app').style.display!=='none')load()},15000);
+</script></body></html>

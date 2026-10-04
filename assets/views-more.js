@@ -20,7 +20,7 @@
     var el = document.getElementById('v-more'); if (!el) return;
     var sc = el.scrollTop, standalone = window.matchMedia && matchMedia('(display-mode: standalone)').matches;
     var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    el.innerHTML = PM.vhead(T('tab_more')) + '</header><div class="pad">' +
+    el.innerHTML = PM.vhead(T('tab_more')) + '</header><div class="pad">' + PM.chatCard() +
       '<section class="block card"><div class="block-h"><h2>' + PM.ic('globe') + T('language') + '</h2></div>' + PM.langSwitch().replace('seg lang', 'seg lang big') + '<p class="fine">' + T('lang_note') + '</p></section>' +
       '<section class="block card sos"><div class="block-h"><h2>' + PM.ic('alert') + T('emergency') + '</h2></div>' + sosList() + '</section>' +
       '<section class="block"><div class="block-h"><h2>' + T('guides') + '</h2></div>' +
@@ -44,7 +44,7 @@
   PM.acts.sos = function () { PM.sheet.open('<div class="sh-pad"><h2>' + PM.ic('alert') + T('emergency') + '</h2>' + sosList() + '<p class="fine">' + T('sos_note') + '</p></div>'); };
   PM.acts.support = function () {
     var url = PM.CFG.SUPPORT_URL;
-    if (url) window.open(url, '_blank', 'noopener');
+    if (url) window.location.assign(url);
   };
 
   /* ---------- quick actions ---------- */

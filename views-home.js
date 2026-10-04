@@ -148,6 +148,10 @@
     }).join('');
     return '<section class="block"><div class="block-h"><h2>' + T('quick_plans') + '</h2></div><div class="hscroll">' + cards + '</div></section>';
   }
+  PM.chatCard = function () {
+    return '<section class="chatcard" data-act="chat-open" role="button" tabindex="0"><span class="cc-ic">' + PM.ic('chat') + '</span><span class="cc-t"><b>' + T('chat_card_t') + '</b><span>' + T('chat_card_d') + '</span></span>' +
+      '<span class="btn primary sm">' + T('chat_open') + '</span></section>';
+  };
   function quickActions() {
     var a = [
       ['near-me', 'locate', T('qa_near')], ['goto-map', 'map', T('qa_map')], ['traffic', 'car', T('qa_traffic')],
@@ -161,7 +165,7 @@
     var scroll = el.scrollTop;
     el.innerHTML = '<header class="vhead home-head"><div class="hh-l"><span class="logo">' + PM.ic('diya') + '</span><div><div class="hh-hi">' + greeting() + '</div>' +
       '<div class="hh-sub">' + T('app_name') + ' · ' + PM.fmtDay(Date.now()) + '</div></div></div><div class="hh-r">' + PM.langSwitch() + '</div></header>' +
-      '<div class="pad">' + wxHero() + rail() + mahalaya() + mustSee() + plansBlock() + quickActions() +
+      '<div class="pad">' + wxHero() + rail() + mahalaya() + PM.chatCard() + mustSee() + plansBlock() + quickActions() +
       '<p class="fine foot">' + T('crafted') + ' <b>Sudipta Chatterjee</b></p></div>';
     el.scrollTop = scroll;
   };

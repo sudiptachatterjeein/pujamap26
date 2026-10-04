@@ -20,7 +20,7 @@
     var el = document.getElementById('v-more'); if (!el) return;
     var sc = el.scrollTop, standalone = window.matchMedia && matchMedia('(display-mode: standalone)').matches;
     var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    el.innerHTML = PM.vhead(T('tab_more')) + '</header><div class="pad">' +
+    el.innerHTML = PM.vhead(T('tab_more')) + '</header><div class="pad">' + PM.chatCard() +
       '<section class="block card"><div class="block-h"><h2>' + PM.ic('globe') + T('language') + '</h2></div>' + PM.langSwitch().replace('seg lang', 'seg lang big') + '<p class="fine">' + T('lang_note') + '</p></section>' +
       '<section class="block card sos"><div class="block-h"><h2>' + PM.ic('alert') + T('emergency') + '</h2></div>' + sosList() + '</section>' +
       '<section class="block"><div class="block-h"><h2>' + T('guides') + '</h2></div>' +
@@ -43,11 +43,8 @@
   /* ---------- sheets ---------- */
   PM.acts.sos = function () { PM.sheet.open('<div class="sh-pad"><h2>' + PM.ic('alert') + T('emergency') + '</h2>' + sosList() + '<p class="fine">' + T('sos_note') + '</p></div>'); };
   PM.acts.support = function () {
-    var url = PM.CFG.SUPPORT_URL, qr = PM.CFG.SUPPORT_QR;
-    PM.sheet.open('<div class="sh-pad center"><h2>' + PM.ic('heart') + T('support_t') + '</h2><p class="muted">' + T('support_long') + '</p>' +
-      (qr ? '<div class="qr"><img src="' + PM.esc(qr) + '" width="220" height="220" alt="' + PM.esc(T('qr_alt')) + '"></div><p class="fine">' + T('qr_note') + '</p>' : '') +
-      '<a class="btn primary wide" href="' + PM.esc(url) + '" target="_blank" rel="noopener">' + PM.ic('heart') + T('pay_upi') + '</a>' +
-      '<p class="quote">“' + T('support_quote') + '”</p></div>');
+    var url = PM.CFG.SUPPORT_URL;
+    if (url) window.location.assign(url);
   };
 
   /* ---------- quick actions ---------- */

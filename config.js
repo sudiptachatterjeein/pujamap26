@@ -15,6 +15,13 @@ window.PUJA_CONFIG = {
   SUPPORT_URL: "https://www.buymeachai.in/sudiptachatterjee.work",
   SUPPORT_QR: "/assets/support-qr.png",
 
+  // Paid community chat ("Puja Adda").
+  // CHAT_PAY_URL: the page where people pay. CHAT_PRICE_LABEL: shown in the steps, e.g. "Rs 99" (leave "" to hide).
+  // CHAT_CONTACT_URL: where people send the payment screenshot, e.g. "https://wa.me/91XXXXXXXXXX" or "mailto:you@example.com" or "https://t.me/yourname" ("" hides the button).
+  CHAT_PAY_URL: "https://www.buymeachai.in/sudiptachatterjee.work",
+  CHAT_PRICE_LABEL: "",
+  CHAT_CONTACT_URL: "",
+
   // Live weather (Open-Meteo, free, no key). Kolkata centre.
   WEATHER_LAT: 22.5726,
   WEATHER_LON: 88.3639,

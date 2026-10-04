@@ -1,13 +1,14 @@
 /* Puja Map 2026 - bootstrap: tab navigation, rendering, timers, splash, offline support */
 (function (PM) {
   'use strict';
-  var TABS = ['home', 'explore', 'map', 'route', 'more'];
+  var NAV = ['home', 'explore', 'map', 'route', 'more'];
+  var TABS = NAV.concat(['chat']);
   var NAV_ICON = { home: 'home', explore: 'search', map: 'map', route: 'route', more: 'grid' };
   var dirty = {};
 
   function buildNav() {
     var nav = document.getElementById('nav'), n = PM.st.sel.length;
-    nav.innerHTML = TABS.map(function (tab) {
+    nav.innerHTML = NAV.map(function (tab) {
       var on = PM.st.tab === tab;
       return '<button class="nb' + (on ? ' on' : '') + '" data-act="tab" data-tab="' + tab + '" aria-label="' + PM.esc(PM.t('tab_' + tab)) + '"' + (on ? ' aria-current="page"' : '') + '>' +
         PM.ic(NAV_ICON[tab]) + '<span>' + PM.t('tab_' + tab) + '</span>' + (tab === 'route' && n ? '<i class="nbadge">' + PM.nf(n) + '</i>' : '') + '</button>';
@@ -23,7 +24,8 @@
     explore: function () { PM.renderExplore(); },
     map: function () { PM.map.renderUI(); PM.map.redraw(); },
     route: function () { PM.renderRoute(); },
-    more: function () { PM.renderMore(); }
+    more: function () { PM.renderMore(); },
+    chat: function () { PM.renderChat(); }
   };
   function show(tab) { dirty[tab] = false; RENDER[tab](); }
 
@@ -33,6 +35,8 @@
     TABS.forEach(function (t) { document.getElementById('v-' + t).classList.toggle('active', t === tab); });
     buildNav();
     if (dirty[tab]) show(tab);
+    document.getElementById('app').classList.toggle('in-chat', tab === 'chat');
+    if (tab === 'chat' && was !== 'chat') PM.chatEnter(); else if (was === 'chat' && tab !== 'chat') PM.chatLeave();
     if (tab === 'map') PM.map.onShow();
     if (!fromHash && location.hash !== '#' + tab) { try { history.pushState(null, '', '#' + tab); } catch (e) { location.hash = tab; } }
     if (was !== tab) { var v = document.getElementById('v-' + tab); if (v && tab !== 'map') v.scrollTop = 0; }
@@ -46,7 +50,7 @@
     PM.renderExploreList();
     if (PM.map) PM.map.markers();
     TABS.forEach(function (t) {
-      if (t === 'explore' || t === 'map') return;
+      if (t === 'explore' || t === 'map' || t === 'chat') return;
       if (t === PM.st.tab) show(t); else dirty[t] = true;
     });
     PM.updateSheetState();
@@ -55,7 +59,7 @@
 
   PM.rerenderAll = function () {
     document.documentElement.classList.toggle('big', PM.st.big);
-    buildNav(); PM.renderHome(); PM.renderExplore(); PM.renderRoute(); PM.renderMore(); PM.map.redraw(); PM.renderMhBanner();
+    buildNav(); PM.renderHome(); PM.renderExplore(); PM.renderRoute(); PM.renderMore(); PM.map.redraw(); PM.renderMhBanner(); if (PM.st.tab !== 'chat') PM.renderChat();
     if (PM.sheet.isOpen()) PM.sheet.close();
   };
 
@@ -91,6 +95,7 @@
     TABS.forEach(function (t) { dirty[t] = true; });
     TABS.forEach(function (t) { if (t !== 'map') show(t); });
     PM.go(start, true);
+    if (start === 'chat') PM.chatEnter();             // opened directly on #chat (reload / link): go() sees no tab change
     // splash: once per browser session
     var seen = false; try { seen = sessionStorage.getItem('puja26_splash') === '1'; sessionStorage.setItem('puja26_splash', '1'); } catch (e) {}
     if (seen) { var sp = document.getElementById('splash'); if (sp) sp.remove(); } else setTimeout(hideSplash, 1500);
